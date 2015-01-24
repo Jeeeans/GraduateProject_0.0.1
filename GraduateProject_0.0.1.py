@@ -88,7 +88,9 @@ import texture
 import Timer
 ################################################################
 
-
+#############################LIGHT##############################
+import Light
+################################################################
 
 def onCollideBegin(e):
 	###################Texture######################
@@ -106,6 +108,16 @@ def onCollideBegin(e):
 		Timer.spin_slow()
 	elif e.obj2 == Timer.timer_spin_fast:
 		Timer.spin_fast()
+		
+	##################Light##########################
+	elif e.obj2 == Light.light_off_foothold:
+		Light.light_off()
+		ground.visible(viz.OFF)
+		dome.visible(viz.OFF)
+	elif e.obj2 == Light.light_on_foothold:
+		Light.light_on()
+		ground.visible(viz.ON)
+		dome.visible(viz.ON)
 		
 viz.callback(viz.COLLIDE_BEGIN_EVENT, onCollideBegin)
 
