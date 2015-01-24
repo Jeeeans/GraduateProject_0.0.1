@@ -33,29 +33,26 @@ def onMouseMove(e):
 	head_bone.setEuler(x, ey, ez)
 viz.callback(viz.MOUSE_MOVE_EVENT, onMouseMove)
 
-def forward(location):
+def move(location):
 	[x,y,z] = male.getPosition()
-	def turn_left():
-		vizact.sequence(vizact.turn(1))
-	def turn_right():
-		vizact.turn(-1)
+	[xr,yr,zr] = male.getEuler()
+	print [xr,yr,zr]
 	if location == 'forward':
 		male.setPosition(x-0.01,y,z)
 		male.state(2)
 	elif location == 'back':
 		male.setPosition(x+0.01,y,z)
 	elif location == 'left':
-		male.addAction(turn_left)
+		male.setPosition(x,y,z+0.01)
+		male.setEuler(xr-0.01,0,0, viz.REL_LOCAL)
 	elif location == 'right': 
-		male.addAction(turn_right)
+		male.setPosition(x,y,z-0.01)
+		male.setEuler(xr+0.01,0,0, viz.REL_LOCAL)
 
-def move(location):
-	vizact.ontimer2(.01,2,forward, location)
-
-vizact.onkeydown('w', move, 'forward')
-vizact.onkeydown('s', move, 'back')
-vizact.onkeydown('a', move, 'left')
-vizact.onkeydown('d', move, 'right')
+vizact.whilekeydown('w', move, 'forward')
+vizact.whilekeydown('s', move, 'back')
+vizact.whilekeydown('a', move, 'left')
+vizact.whilekeydown('d', move, 'right')
 
 
 
@@ -87,10 +84,14 @@ import texture
 ################################################################
 
 
+#############################TIMER##############################
+import Timer
+################################################################
 
 
 
 def onCollideBegin(e):
+	###################Texture######################
 	if e.obj2 == texture.texture_foothold_1:
 		texture.change_texture()
 	elif e.obj2 == texture.texture_foothold_2:
@@ -99,6 +100,12 @@ def onCollideBegin(e):
 		texture.show_move()
 	elif e.obj2 == texture.texture_foothold_4:
 		texture.show_blind()
+		
+	##################Timer##########################
+	elif e.obj2 == Timer.timer_spin_slow:
+		Timer.spin_slow()
+	elif e.obj2 == Timer.timer_spin_fast:
+		Timer.spin_fast()
 		
 viz.callback(viz.COLLIDE_BEGIN_EVENT, onCollideBegin)
 
