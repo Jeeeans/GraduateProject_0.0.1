@@ -64,7 +64,7 @@ def show_blind():
 		global blend
 		blend = blend - 0.025
 		window.texblend(blend, '', 1)
-	vizact.ontimer2(0.1, 26, blind_moon)
+	vizact.ontimer2(0.1, 20, blind_moon)
 	
 	
 
