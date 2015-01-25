@@ -2,7 +2,7 @@
 import vizact
 
 lantern = viz.add('art/flashlight.ive')
-lantern.setPosition(-15.5,.5,7)
+lantern.setPosition(-15,.5,7)
 lantern.setEuler(0,180,0)
 
 lantern_light = viz.addLight()

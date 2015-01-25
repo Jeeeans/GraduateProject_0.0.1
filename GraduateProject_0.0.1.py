@@ -43,16 +43,20 @@ def move(location):
 	elif location == 'back':
 		male.setPosition(x+0.01,y,z)
 	elif location == 'left':
-		male.setPosition(x,y,z+0.01)
+		male.setPosition(x,y,z-0.01)
 		male.setEuler(xr-0.01,0,0, viz.REL_LOCAL)
 	elif location == 'right': 
-		male.setPosition(x,y,z-0.01)
+		male.setPosition(x,y,z+0.01)
 		male.setEuler(xr+0.01,0,0, viz.REL_LOCAL)
+
+def stop():
+	male.clearActions()
 
 vizact.whilekeydown('w', move, 'forward')
 vizact.whilekeydown('s', move, 'back')
 vizact.whilekeydown('a', move, 'left')
 vizact.whilekeydown('d', move, 'right')
+vizact.onkeyup('w', stop)
 
 
 
@@ -90,6 +94,10 @@ import Timer
 
 #############################LIGHT##############################
 import Light
+################################################################
+
+#############################PYSICS##############################
+import Physics
 ################################################################
 
 def onCollideBegin(e):
