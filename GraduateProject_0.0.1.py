@@ -13,7 +13,7 @@ dome.texture(env)
 #######################Make Avatar#####################
 male = viz.add('vcc_male.cfg')
 male.setPosition([1,0,0])
-male.setEuler(-90,0,0)
+male.setEuler([0,0,0],viz.REL_LOCAL)
 male.collideMesh()
 #male.enable(viz.PHYSICS)
 male.enable(viz.COLLIDE_NOTIFY)
@@ -21,6 +21,7 @@ male.enable(viz.COLLIDE_NOTIFY)
 head_bone = male.getBone('Bip01 Head')
 head_bone.lock()
 
+########Avatar Move##########
 def onMouseMove(e):
 	#print head_bone.getEuler()
 	[x,y,z] = head_bone.getEuler()
@@ -38,55 +39,42 @@ def move(location):
 	[xr,yr,zr] = male.getEuler()
 	print [xr,yr,zr]
 	if location == 'forward':
-		male.setPosition(x-0.01,y,z)
+		male.setPosition([0, 0, 0.05], viz.ABS_LOCAL)
 		male.state(2)
 	elif location == 'back':
-		male.setPosition(x+0.01,y,z)
+		male.setPosition([0, 0, -0.05], viz.ABS_LOCAL)
+	elif location == 'left_turn':
+		male.setEuler([-2, 0, 0], viz.REL_GLOBAL)
+	elif location == 'right_turn': 
+		male.setEuler([2, 0, 0], viz.REL_GLOBAL)
 	elif location == 'left':
-		male.setPosition(x,y,z-0.01)
-		male.setEuler(xr-0.01,0,0, viz.REL_LOCAL)
-	elif location == 'right': 
-		male.setPosition(x,y,z+0.01)
-		male.setEuler(xr+0.01,0,0, viz.REL_LOCAL)
+		male.setPosition([-0.05,0,0],viz.ABS_LOCAL)
+	elif location == 'right':
+		male.setPosition([0.05,0,0], viz.ABS_LOCAL)
 
 def stop():
 	male.clearActions()
 
 vizact.whilekeydown('w', move, 'forward')
 vizact.whilekeydown('s', move, 'back')
-vizact.whilekeydown('a', move, 'left')
-vizact.whilekeydown('d', move, 'right')
+vizact.whilekeydown('a', move, 'left_turn')
+vizact.whilekeydown('d', move, 'right_turn')
+vizact.whilekeydown('q', move, 'left')
+vizact.whilekeydown('e', move, 'right')
 vizact.onkeyup('w', stop)
 
 
-
-
-
-foothold = viz.add('art/wall.ive')
-foothold.setEuler(0,90,0)
-foothold.setScale(0.5,0.5,1)
-foothold.collideMesh()
-#foothold.enable(viz.PHYSICS)
-
-
-
-#vizact.onkeyup('w', male.stopAnimation, 2, 0)
-#view_link = viz.link(head_bone, viz.MainView)
-#viz.eyeheight(0)
+view_link = viz.link(head_bone, viz.MainView)
+viz.eyeheight(0)
 
 
 #############################TEXTURE############################
 import texture
-
 ################################################################
-
-
-
 
 #############################GRAPH##############################
 
 ################################################################
-
 
 #############################TIMER##############################
 import Timer
@@ -96,7 +84,7 @@ import Timer
 import Light
 ################################################################
 
-#############################PYSICS##############################
+#############################PHYSICS#############################
 import Physics
 ################################################################
 
@@ -129,6 +117,8 @@ def onCollideBegin(e):
 		
 	#################Physics########################
 	elif e.obj2 == Physics.ball_foothold:
+		Physics.jumping();
+	elif e.obj2 == Physics.ball_foothold2:
 		Physics.shoot_ball();
 	
 		
