@@ -34,6 +34,7 @@ def onMouseMove(e):
 	head_bone.setEuler(x, ey, ez)
 viz.callback(viz.MOUSE_MOVE_EVENT, onMouseMove)
 
+########### MOVEMENT FOR TEST ############
 def move(location):
 	[x,y,z] = male.getPosition()
 	[xr,yr,zr] = male.getEuler()
@@ -62,6 +63,15 @@ vizact.whilekeydown('d', move, 'right_turn')
 vizact.whilekeydown('q', move, 'left')
 vizact.whilekeydown('e', move, 'right')
 vizact.onkeyup('w', stop)
+	
+vizact.whilekeydown('w', forward, 'w')
+vizact.whilekeydown('s', forward, 's')
+vizact.whilekeydown('a', forward, 'a')
+vizact.whilekeydown('d', forward, 'd')
+
+############################################
+
+
 
 
 view_link = viz.link(head_bone, viz.MainView)
@@ -73,6 +83,10 @@ import texture
 ################################################################
 
 #############################GRAPH##############################
+import graph
+rotate_number = 0
+coord_number = 0
+obj_number = 0
 
 ################################################################
 
@@ -84,11 +98,20 @@ import Timer
 import Light
 ################################################################
 
-#############################PHYSICS#############################
+#############################PHYSICS############################
 import Physics
 ################################################################
 
+############################MODELING############################
+import modeling
+################################################################
+
 def onCollideBegin(e):
+	###########graph footholds variable#############
+	global rotate_number
+	global coord_number
+	global obj_number
+	
 	###################Texture######################
 	if e.obj2 == texture.texture_foothold_1:
 		texture.change_texture()
@@ -99,12 +122,35 @@ def onCollideBegin(e):
 	elif e.obj2 == texture.texture_foothold_4:
 		texture.show_blind()
 		
+	######################GRAPH#####################	
+	elif e.obj2 == graph.foothold_object_parent:
+		obj_number = 0
+	elif e.obj2 == graph.foothold_object_child:
+		obj_number = 1
+	elif e.obj2 == graph.foothold_rotate_abs: 
+		rotate_number = 0
+	elif e.obj2 == graph.foothold_rotate_rel: 
+		rotate_number = 1
+	elif e.obj2 == graph.foothold_coord_parent: 
+		coord_number = 0
+	elif e.obj2 == graph.foothold_coord_local: 
+		cood_number = 1
+	elif e.obj2 == graph.foothold_rotate_action: 
+		graph.rotate_action(obj_number, rotate_number, coord_number)
+	elif e.obj2 == graph.foothold_link_action:
+		graph.link_action()
+	elif e.obj2 == graph.foothold_change_link:
+		graph.change_link_position()	
+		
+		
+		
 	##################Timer##########################
 	elif e.obj2 == Timer.timer_spin_slow:
 		Timer.spin_slow()
 	elif e.obj2 == Timer.timer_spin_fast:
 		Timer.spin_fast()
 		
+
 	##################Light##########################
 	elif e.obj2 == Light.light_off_foothold:
 		Light.light_off()
@@ -121,6 +167,17 @@ def onCollideBegin(e):
 	elif e.obj2 == Physics.ball_foothold2:
 		Physics.shoot_ball();
 	
+	##################MODELING#####################		
+	elif e.obj2 == modeling.foothold_change_posture:
+		modeling.change_posture()
+	elif e.obj2 == modeling.foothold_move_posture:
+		vizact.ontimer(.01, modeling.move_posture)
+	elif e.obj2 == modeling.foothold_change_state:
+		modeling.change_state()
+	elif e.obj2 == modeling.foothold_blend_state:
+		modeling.blend_state()
+	elif e.obj2 == modeling.foothold_reset_state:
+		modeling.reset_state()
 		
 viz.callback(viz.COLLIDE_BEGIN_EVENT, onCollideBegin)
 
