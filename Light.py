@@ -9,6 +9,8 @@ lantern_light = viz.addLight()
 
 lantern_light.position(0,0,0,1)
 
+
+#lantern_light.color(viz.YELLOW)
 lantern_light.spread(45)
 lantern_light.spotexponent(0)
 

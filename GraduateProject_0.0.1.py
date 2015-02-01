@@ -60,6 +60,9 @@ vizact.whilekeydown('a', move, 'left_turn')
 vizact.whilekeydown('d', move, 'right_turn')
 vizact.whilekeydown('q', move, 'left')
 vizact.whilekeydown('e', move, 'right')
+vizact.onkeyup('w', stop)
+
+
 
 ############################################
 
@@ -141,8 +144,7 @@ def onCollideBegin(e):
 		Timer.spin_slow()
 	elif e.obj2 == Timer.timer_spin_fast:
 		Timer.spin_fast()
-		
-
+	
 	##################Light##########################
 	elif e.obj2 == Light.light_off_foothold:
 		Light.light_off()
@@ -170,7 +172,7 @@ def onCollideBegin(e):
 		modeling.blend_state()
 	elif e.obj2 == modeling.foothold_reset_state:
 		modeling.reset_state()
-		
+
 viz.callback(viz.COLLIDE_BEGIN_EVENT, onCollideBegin)
 
 viz.phys.enable()
