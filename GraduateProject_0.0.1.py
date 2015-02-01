@@ -23,7 +23,6 @@ head_bone.lock()
 
 ########Avatar Move##########
 def onMouseMove(e):
-	#print head_bone.getEuler()
 	[x,y,z] = head_bone.getEuler()
 	ey = y
 	ez = z
@@ -38,7 +37,6 @@ viz.callback(viz.MOUSE_MOVE_EVENT, onMouseMove)
 def move(location):
 	[x,y,z] = male.getPosition()
 	[xr,yr,zr] = male.getEuler()
-	print [xr,yr,zr]
 	if location == 'forward':
 		male.setPosition([0, 0, 0.05], viz.ABS_LOCAL)
 		male.state(2)
@@ -62,12 +60,6 @@ vizact.whilekeydown('a', move, 'left_turn')
 vizact.whilekeydown('d', move, 'right_turn')
 vizact.whilekeydown('q', move, 'left')
 vizact.whilekeydown('e', move, 'right')
-vizact.onkeyup('w', stop)
-	
-vizact.whilekeydown('w', forward, 'w')
-vizact.whilekeydown('s', forward, 's')
-vizact.whilekeydown('a', forward, 'a')
-vizact.whilekeydown('d', forward, 'd')
 
 ############################################
 
